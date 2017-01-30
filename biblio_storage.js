@@ -17,12 +17,13 @@ var biblio_storage = MessageBotExtension('biblio_storage');
 (function(ex) {
     ex.setAutoLaunch(true);
     ex.tab = ex.ui.addTab('Storage Management');
+    ex.tab.classList.add('container');
     ex.uninstall = function() {
         //Remove tab
         ex.ui.removeTab(ex.tab);
     };
 
-    ex.tab.innerHTML = '<style>#biblio_storage_man { margin-top: 1em; }#biblio_storage_man > input { margin: 0.5em; width:calc(100% - 2em);}</style><p>Warning: If you change the values below, you may break the bot! <a style="color:#f00;text-decoration:underline;" onclick="biblio_storage.clearConfig();">Last resort - Clear Everything</a></p>';
+    ex.tab.innerHTML = '<style>#biblio_storage_man { margin-top: 1em; }</style><p>Warning: If you change the values below, you may break the bot! <a style="color:#f00;text-decoration:underline;" onclick="biblio_storage.clearConfig();">Last resort - Clear Everything</a></p>';
 
     var worlds = {};
     var ids = [];
@@ -46,14 +47,14 @@ var biblio_storage = MessageBotExtension('biblio_storage');
         }
 
         var c = document.getElementById('biblio_storage_man');
-        var tmpHTML = '<h3>' + worldName.replace(/</g, '&lt;') + '</h3>';
+        var tmpHTML = '<h3 class="subtitle">' + worldName.replace(/</g, '&lt;') + '</h3>';
         var counter = 0;
 
         if (worldId == 'global') {
             var r = new RegExp(/[0-9]/);
             Object.keys(localStorage).forEach(function(key) {
                 if (!r.test(key)) { //If key contains no numbers
-                    tmpHTML += '<label>' + key.replace(/</g, '&lt;') + '</label><input><br>';
+                    tmpHTML += '<label>' + key.replace(/</g, '&lt;') + '</label><input class="input"><br>';
                 }
             });
             c.innerHTML = tmpHTML;
@@ -107,11 +108,11 @@ var biblio_storage = MessageBotExtension('biblio_storage');
             }
         });
 
-        var tmpHTML = '<select><option>Choose...</option><option data-wid="global">Globals</option>';
+        var tmpHTML = '<select class="select"><option>Choose...</option><option data-wid="global">Globals</option>';
         Object.keys(worlds).forEach(function(world) {
             tmpHTML += '<option data-wid="' + worlds[world] + '">' + world.replace(/</g, '&lt;') + ' (' + worlds[world] + ')</option>';
         });
-        tmpHTML += '</select><div id="biblio_storage_man"></div><button>Save</button>';
+        tmpHTML += '</select><div id="biblio_storage_man"></div><button class="button is-primary">Save</button>';
 
         ex.tab.innerHTML += tmpHTML;
 
